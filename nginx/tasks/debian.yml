@@ -1,0 +1,19 @@
+- name: Ensure APT official nginx key
+  apt_key: url=http://nginx.org/keys/nginx_signing.key
+
+- name: Ensure APT official nginx repository
+  apt_repository: repo="deb http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release }} nginx"
+
+- name: Ensure APT official nginx repository (mainline)
+  apt_repository: repo="deb http://nginx.org/packages/mainline/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release }} nginx"
+
+- name: Install NGINX
+  apt:
+    name: nginx
+    state: latest
+
+- name: Make sure a service is running
+  systemd:
+    state: started
+    name: nginx
+    enabled: yes

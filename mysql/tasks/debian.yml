@@ -1,0 +1,15 @@
+- name: Install MySQL
+  apt:
+    name: mysql-server
+    state: latest
+
+- name: Install MySQL-python
+  apt:
+    name: python-mysqldb
+    state: latest
+
+- name: Make sure a service is running
+  systemd:
+    state: started
+    name: mysql
+    enabled: yes

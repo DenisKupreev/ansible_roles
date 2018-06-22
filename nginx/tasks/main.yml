@@ -1,0 +1,21 @@
+- name: install nginx
+  import_tasks: debian.yml
+  when: ansible_os_family == "Debian"
+- import_tasks: centos.yml
+  when: ansible_distribution | lower == 'centos'
+- name: Set nginx.conf
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    validate: "/usr/sbin/nginx -c %s -t"
+    backup: yes
+  notify: 
+    - restart nginx
+- name: Set vhost.conf
+  template:
+    src: vhost.conf.j2
+    dest: /etc/nginx/conf.d/{{domain}}.conf
+    validate: bash -c 'nginx -t -c /dev/stdin <<< "events {worker_connections 1;} http { include %s; }"'      
+    backup: yes
+  notify: 
+    - restart nginx

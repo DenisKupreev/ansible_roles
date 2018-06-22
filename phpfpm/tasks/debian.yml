@@ -1,0 +1,28 @@
+- name: Install NGINX PHP MYSQL
+  apt: name={{item}} state=present
+  with_items:
+    - php
+    - php-fpm
+    - php7.0-mbstring
+    - php7.0-mcrypt
+    - php7.0-pdo
+    - php7.0-mysql
+    - php7.0-xml
+    - php7.0-gd
+    - php7.0-bcmath 
+    - php7.0-intl 
+    - php7.0-dom 
+    - php7.0-ldap 
+    - php7.0-opcache 
+    - php7.0-soap
+- name: Make sure a service is running
+  systemd:
+    state: started
+    name: php7.0-fpm
+    enabled: yes
+- name: Set php-fpm.conf
+  template:
+    src: www.conf.j2
+    dest: /etc/php/7.0/fpm/php-fpm.conf 
+  notify: 
+    - restart php7.0-fpm

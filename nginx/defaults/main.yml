@@ -1,0 +1,6 @@
+---
+# server_listen: {{ ansible_all_ipv4_addresses }}
+server_name: "site.net www.site.net"
+index: "index.php"
+fastcgi_pass: "127.0.0.1"
+fastcgi_pass_port: "9000"

@@ -1,0 +1,18 @@
+- name: Disable SELinux
+  selinux: state=disabled
+  register: task_result
+  when: ansible_distribution | lower == 'centos'
+
+- name: Reboot
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+  when: task_result is changed and ansible_distribution | lower == 'centos'
+
+- name: Wait for the reboot to complete Disable SELinux
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+  when: task_result is changed

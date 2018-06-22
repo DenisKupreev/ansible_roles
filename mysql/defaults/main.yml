@@ -1,0 +1,4 @@
+---
+mysql_db: "wp"
+mysql_user: "user_db"
+mysql_pass: "StRonG_PasSw0rd"

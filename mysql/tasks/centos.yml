@@ -1,0 +1,14 @@
+- name: Install Mariadb
+  yum:
+    name: mariadb-server
+    state: latest
+- name: Install MySQL-python
+  yum:
+    name: MySQL-python
+    state: latest
+
+- name: Make sure a service is running
+  systemd:
+    state: started
+    name: mariadb
+    enabled: yes

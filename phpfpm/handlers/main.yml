@@ -1,0 +1,8 @@
+- name: restart php-fpm
+  systemd:
+    state: restarted
+    name: php-fpm
+- name: restart php7.0-fpm
+  systemd:
+    state: restarted
+    name: php7.0-fpm

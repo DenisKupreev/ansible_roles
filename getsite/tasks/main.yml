@@ -1,0 +1,30 @@
+- name: Install git
+  import_tasks: debian.yml
+  when: ansible_os_family == "Debian"
+- import_tasks: centos.yml
+  when: ansible_distribution | lower == 'centos'
+- name: Create directory ""
+  file:
+    path: /home/web
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: 0750
+- name: Create directory {{domain}}
+  file:
+    path: /home/web/{{domain}}
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: 0755
+- name: Clone git
+  git:
+    repo: "{{ repo_git }}"
+    dest: /home/web/{{domain}}/
+- name: Set permission
+  file: 
+    dest: /home/web/{{domain}} 
+    owner: nginx
+    group: nginx
+    mode: u=rwX,g=rX,o=rX 
+    recurse: yes  
